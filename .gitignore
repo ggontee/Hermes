@@ -1,0 +1,9 @@
+node_modules/
+.next/
+data/
+*.db
+*.db-*
+.env*
+__pycache__/
+.venv/
+cdk.out/

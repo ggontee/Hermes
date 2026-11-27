@@ -1,0 +1,208 @@
+# Hermes 구독 목록 초안 v0.1 (2026-11-27)
+#
+# 검증 상태: 이 작업 환경의 네트워크가 외부 사이트를 막아 주소를 실제로 열어 보지 못했다.
+#   모든 항목은 verified: false 로 두고, EC2 첫 실행 때 scripts/check_sources.py 가 열어 보고
+#   200 + 항목 수를 확인한 뒤 true 로 바꾼다.
+# 확인 필요(TODO): 주소나 채널 ID를 아직 모르는 곳. 오너가 아시면 채워 주세요.
+#
+# type:
+#   rss      원본 RSS/Atom 피드 (블로그, Substack, 기관 블로그)
+#   youtube  채널 ID (youtube.com/feeds/videos.xml?channel_id=...)
+#   bluesky  핸들 (bsky.app/profile/<handle>/rss 공식 피드)
+#   x        2단계. enabled: false 로만 둔다 (RSSHub + 부계정)
+# field: AI | Tech | Bio
+
+# ───────────────────────── AI ─────────────────────────
+
+- name: Andrej Karpathy
+  field: AI
+  affiliation: Eureka Labs, 전 OpenAI·Tesla
+  sources:
+    - { type: rss, url: "https://karpathy.github.io/feed.xml", note: "옛 블로그. 최근 글은 bearblog일 수 있음" }
+    - { type: rss, url: "https://karpathy.bearblog.dev/feed/", note: "TODO 실제 사용 중인지 확인" }
+    - { type: youtube, channel_id: "UCXUPKJO5MZQN11PqgIvyuvQ", handle: "@AndrejKarpathy" }
+    - { type: x, handle: karpathy, enabled: false }
+
+- name: Simon Willison
+  field: AI
+  affiliation: Datasette, LLM CLI
+  sources:
+    - { type: rss, url: "https://simonwillison.net/atom/everything/", note: "글이 매우 많다. entries만 원하면 /atom/entries/" }
+    - { type: bluesky, handle: "simonwillison.net" }
+    - { type: x, handle: simonw, enabled: false }
+
+- name: Ethan Mollick
+  field: AI
+  affiliation: Wharton
+  sources:
+    - { type: rss, url: "https://www.oneusefulthing.org/feed" }
+    - { type: x, handle: emollick, enabled: false }
+
+- name: swyx
+  field: AI
+  affiliation: Latent Space, smol.ai
+  sources:
+    - { type: rss, url: "https://www.latent.space/feed" }
+    - { type: rss, url: "https://news.smol.ai/rss.xml", note: "AINews. 매일 매우 김 → 긴 글 상한을 많이 쓸 수 있음" }
+    - { type: x, handle: swyx, enabled: false }
+
+- name: Nathan Lambert
+  field: AI
+  affiliation: Ai2
+  sources:
+    - { type: rss, url: "https://www.interconnects.ai/feed" }
+    - { type: x, handle: natolambert, enabled: false }
+
+- name: Jim Fan
+  field: AI
+  affiliation: NVIDIA
+  sources:
+    - { type: x, handle: DrJimFan, enabled: false }   # X 외 소스 없음 → 2단계부터
+
+- name: Yann LeCun
+  field: AI
+  affiliation: 전 Meta
+  sources:
+    - { type: bluesky, handle: "TODO", note: "Bluesky 계정이 있으면 MVP에 넣을 수 있음" }
+    - { type: x, handle: ylecun, enabled: false }
+
+- name: François Chollet
+  field: AI
+  affiliation: Ndea, Keras
+  sources:
+    - { type: bluesky, handle: "TODO" }
+    - { type: x, handle: fchollet, enabled: false }
+
+- name: Andrew Ng
+  field: AI
+  affiliation: DeepLearning.AI
+  sources:
+    - { type: rss, url: "TODO", note: "The Batch 공식 RSS 확인 필요. 없으면 RSSHub 경로" }
+    - { type: x, handle: AndrewYNg, enabled: false }
+
+- name: Demis Hassabis
+  field: AI
+  affiliation: Google DeepMind
+  sources:
+    - { type: x, handle: demishassabis, enabled: false }   # 개인 소스는 X뿐. DeepMind 블로그는 기관 항목에서
+
+- name: Dwarkesh Patel
+  field: AI
+  affiliation: Dwarkesh Podcast
+  sources:
+    - { type: rss, url: "https://www.dwarkesh.com/feed" }
+    - { type: youtube, channel_id: "UCXl4i9dYBrFOabk0xGmbkRA", handle: "@DwarkeshPatel", note: "영상이 1~3시간 → Gemini 상한 주의" }
+    - { type: x, handle: dwarkesh_sp, enabled: false }
+
+- name: Lilian Weng
+  field: AI
+  affiliation: Thinking Machines Lab
+  sources:
+    - { type: rss, url: "https://lilianweng.github.io/index.xml" }
+    - { type: x, handle: lilianweng, enabled: false }
+
+- name: Anthropic
+  field: AI
+  affiliation: 기관
+  sources:
+    - { type: rss, url: "TODO", note: "공식 RSS 없음(anthropic.com/rss.xml 404 확인). RSSHub anthropic/news 경로 사용 예정" }
+
+- name: OpenAI
+  field: AI
+  affiliation: 기관
+  sources:
+    - { type: rss, url: "https://openai.com/news/rss.xml" }
+
+- name: Google DeepMind
+  field: AI
+  affiliation: 기관
+  sources:
+    - { type: rss, url: "https://deepmind.google/blog/rss.xml" }
+
+# ───────────────────────── Tech ─────────────────────────
+
+- name: Paul Graham
+  field: Tech
+  affiliation: Y Combinator
+  sources:
+    - { type: rss, url: "http://www.aaronsw.com/2002/feeds/pgessays.rss", note: "비공식 에세이 피드. 대안: RSSHub paulgraham 경로" }
+    - { type: x, handle: paulg, enabled: false }
+
+- name: Garry Tan
+  field: Tech
+  affiliation: Y Combinator
+  sources:
+    - { type: youtube, channel_id: "UCIBgYfDjtWlbJhg--Z4sOgQ", handle: "@garrytan" }
+    - { type: x, handle: garrytan, enabled: false }
+
+- name: Benedict Evans
+  field: Tech
+  affiliation: 독립 애널리스트
+  sources:
+    - { type: rss, url: "https://www.ben-evans.com/benedictevans?format=rss" }
+    - { type: x, handle: benedictevans, enabled: false }
+
+- name: Gergely Orosz
+  field: Tech
+  affiliation: The Pragmatic Engineer
+  sources:
+    - { type: rss, url: "https://newsletter.pragmaticengineer.com/feed", note: "유료 글은 앞부분만 옴" }
+    - { type: x, handle: GergelyOrosz, enabled: false }
+
+- name: Ben Thompson
+  field: Tech
+  affiliation: Stratechery
+  sources:
+    - { type: rss, url: "https://stratechery.com/feed/", note: "무료 글만" }
+    - { type: x, handle: benthompson, enabled: false }
+
+- name: Lenny Rachitsky
+  field: Tech
+  affiliation: Lenny's Newsletter
+  sources:
+    - { type: rss, url: "https://www.lennysnewsletter.com/feed", note: "유료 글은 앞부분만 옴" }
+    - { type: youtube, channel_id: "TODO", handle: "@LennysPodcast" }
+    - { type: x, handle: lennysan, enabled: false }
+
+- name: Patrick Collison
+  field: Tech
+  affiliation: Stripe
+  sources:
+    - { type: rss, url: "TODO", note: "patrickcollison.com에 피드가 있는지 확인. 없으면 X만(2단계)" }
+    - { type: x, handle: patrickc, enabled: false }
+
+# ───────────────────────── Bio ─────────────────────────
+
+- name: Eric Topol
+  field: Bio
+  affiliation: Scripps Research
+  sources:
+    - { type: rss, url: "https://erictopol.substack.com/feed", note: "Ground Truths" }
+    - { type: bluesky, handle: "TODO" }
+    - { type: x, handle: EricTopol, enabled: false }
+
+- name: Patrick Hsu
+  field: Bio
+  affiliation: Arc Institute
+  sources:
+    - { type: x, handle: pdhsu, enabled: false }   # X 외 소스 없음 → 2단계부터
+
+- name: Elliot Hershberg
+  field: Bio
+  affiliation: The Century of Biology
+  sources:
+    - { type: rss, url: "https://centuryofbio.com/feed" }
+    - { type: x, handle: ElliotHershberg, enabled: false }
+
+- name: Derek Lowe
+  field: Bio
+  affiliation: In the Pipeline (Science)
+  sources:
+    - { type: rss, url: "https://www.science.org/blogs/pipeline/feed" }
+
+- name: Sergey Ovchinnikov
+  field: Bio
+  affiliation: MIT
+  sources:
+    - { type: bluesky, handle: "TODO" }
+    - { type: x, handle: sokrypton, enabled: false }
