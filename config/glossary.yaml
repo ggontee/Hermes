@@ -1,0 +1,79 @@
+# Hermes 번역 용어집 v0.1 (2026-11-27)
+# 프롬프트에 그대로 들어간다. 길어지면 비용이 늘어나므로 "틀리기 쉬운 것"만 둔다.
+#
+# keep:      원어 그대로 둔다 (번역·음차하지 않음)
+# fixed:     항상 이 한국어로 옮긴다
+# avoid:     쓰지 말아야 할 번역 (왼쪽 → 오른쪽으로 고친다)
+
+keep:
+  # 회사·기관
+  - Anthropic
+  - OpenAI
+  - Google DeepMind
+  - DeepMind
+  - Meta
+  - NVIDIA
+  - Mistral
+  - xAI
+  - Hugging Face
+  - Ai2
+  - Arc Institute
+  - Y Combinator
+  - Stripe
+  # 모델·제품 (계열 이름. 버전 숫자도 원문 그대로)
+  - Claude
+  - GPT
+  - ChatGPT
+  - Gemini
+  - Llama
+  - Grok
+  - DeepSeek
+  - Qwen
+  - AlphaFold
+  - Cursor
+  - Claude Code
+  - Codex
+  # 기술 용어 중 한국 업계에서 원어로 쓰는 것
+  - LLM
+  - RL
+  - RLHF
+  - fine-tuning
+  - inference
+  - benchmark
+  - token
+  - context window
+  - agent
+  - eval
+  - scaling law
+  - transformer
+  - diffusion
+  - MCP
+  - RAG
+  - CRISPR
+  - GLP-1
+  - mRNA
+
+fixed:
+  reasoning: 추론
+  alignment: 정렬
+  pretraining: 사전 학습
+  post-training: 사후 학습
+  open weights: 오픈 웨이트
+  frontier model: 프런티어 모델
+  compute: 컴퓨트
+  clinical trial: 임상시험
+  drug discovery: 신약 개발
+  protein design: 단백질 설계
+  founder: 창업자
+  moat: 해자
+
+avoid:
+  인공 지능 에이전트: agent
+  미세 조정: fine-tuning
+  추론(inference 의미로 쓸 때): inference
+
+style:
+  - 문장은 평서형 "~다"체. 존댓말을 쓰지 않는다.
+  - 원문의 농담, 반어, 강조는 살린다. 과장하거나 덧붙이지 않는다.
+  - 숫자, 단위, 날짜는 원문 그대로. 달러는 "$100M"이 아니라 "1억 달러"처럼 풀어 쓴다.
+  - 사람 이름은 첫 등장 때 원어 그대로 쓴다 (예: Andrej Karpathy).
