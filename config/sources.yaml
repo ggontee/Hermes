@@ -9,6 +9,7 @@
 #   rss      원본 RSS/Atom 피드 (블로그, Substack, 기관 블로그)
 #   youtube  채널 ID (youtube.com/feeds/videos.xml?channel_id=...)
 #   bluesky  핸들 (bsky.app/profile/<handle>/rss 공식 피드)
+#   rsshub   RSSHub 경로 (route: "anthropic/news")
 #   x        2단계. enabled: false 로만 둔다 (RSSHub + 부계정)
 # field: AI | Tech | Bio
 
@@ -105,7 +106,7 @@
   field: AI
   affiliation: 기관
   sources:
-    - { type: rss, url: "TODO", note: "공식 RSS 없음(anthropic.com/rss.xml 404 확인). RSSHub anthropic/news 경로 사용 예정" }
+    - { type: rsshub, route: "anthropic/news", note: "공식 RSS 없음(anthropic.com/rss.xml 404 확인). RSSHub 경로는 첫 실행 때 확인" }
 
 - name: OpenAI
   field: AI

@@ -1,0 +1,38 @@
+# Hermes 설정 기본값. 비밀값은 넣지 않는다 (/etc/hermes/env).
+# 환경변수 HERMES_<대문자 키>가 있으면 그 값이 우선한다 (예: HERMES_DB_PATH).
+
+db_path: data/hermes.db
+timezone: Asia/Seoul
+
+schedule:            # systemd timer가 쓰는 값. 파이프라인은 참고만 한다
+  - "06:00"
+  - "14:00"
+  - "22:00"
+
+classify:
+  short_max_chars: 500      # SNS 원문 이 길이 이하면 짧은 SNS(전문 번역)
+
+dedupe:
+  same_content_window_hours: 72
+  title_similarity: 0.8     # 0~1, 같은 사람의 비슷한 제목을 한 카드로 묶는 기준
+  hold_max_runs: 2          # 링크한 원글을 기다리는 최대 회차
+
+budget:                     # 하루(시간대 기준) 상한
+  ai_items_per_day: 60
+  videos_per_day: 10
+  analyses_per_day: 5
+
+collect:
+  timeout_seconds: 20
+  max_items_per_source: 20  # 한 소스에서 한 번에 받는 최대 항목
+  first_run_lookback_hours: 72   # 처음 보는 소스는 이 시간 안의 글만 받는다
+  user_agent: "HermesFeedReader/0.1 (+personal use)"
+
+rsshub:
+  base_url: http://127.0.0.1:1200
+
+models:
+  short: claude-haiku-5-5
+  long: claude-sonnet-5-5
+  transcribe: gemini-3.5-flash-lite
+  analysis: claude-sonnet-5-5

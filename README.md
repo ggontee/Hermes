@@ -10,3 +10,13 @@
 - 프롬프트: [docs/prompts.md](docs/prompts.md)
 - 배포·운영: [docs/deploy-aws.md](docs/deploy-aws.md)
 - 용어집: [config/glossary.yaml](config/glossary.yaml)
+
+## 개발
+
+```bash
+python3.12 -m venv .venv && . .venv/bin/activate
+pip install -r requirements-dev.txt
+python -m pytest -q                       # 테스트 (네트워크 없이 돈다)
+python -m pipeline.run --check-sources    # 구독 소스를 실제로 열어 보기
+python -m pipeline.run --no-ai            # 수집·저장만 (data/hermes.db)
+```
