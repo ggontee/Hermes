@@ -1,0 +1,14 @@
+[Unit]
+Description=Hermes: RSSHub + Redis (127.0.0.1:1200)
+Requires=docker.service
+After=docker.service hermes-secrets.service
+
+[Service]
+EnvironmentFile=/etc/hermes/env
+ExecStart=/usr/bin/docker compose -p hermes -f /opt/hermes/deploy/docker-compose.rsshub.yml up --remove-orphans
+ExecStop=/usr/bin/docker compose -p hermes -f /opt/hermes/deploy/docker-compose.rsshub.yml down
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
