@@ -1,0 +1,21 @@
+[Unit]
+Description=Hermes: deep analysis worker (queue -> Claude -> Tana #Research)
+After=network-online.target hermes-secrets.service
+Requires=hermes-secrets.service
+
+[Service]
+User=hermes
+WorkingDirectory=/opt/hermes
+EnvironmentFile=/etc/hermes/env
+Environment=PATH=/usr/local/bin:/usr/bin:/bin:/snap/bin
+ExecStart=/opt/hermes/.venv/bin/python -m pipeline.analysis
+Restart=always
+RestartSec=10
+MemoryMax=300M
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/hermes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

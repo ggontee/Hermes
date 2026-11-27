@@ -47,7 +47,7 @@ AWS_PROFILE=octopus npx cdk deploy Hermes
 | `hermes-pipeline.service` | `python -m pipeline.run` (oneshot) |
 | `hermes-pipeline.timer` | `OnCalendar=*-*-* 06,14,22:00:00 Asia/Seoul`, `Persistent=true` |
 | `hermes-backup.service` / `.timer` | 매일 04:00 SQLite `.backup`, 7개 보관 |
-| `hermes-analysis.service` | 심화 분석 대기열 워커 (상시, 대기열이 비면 쉼). Tana 연동 PR에서 추가 |
+| `hermes-analysis.service` | 심화 분석 대기열 워커 `python -m pipeline.analysis` (상시, 10초마다 대기열 확인, 300MB). Tana 토큰은 Secrets Manager에서 직접 읽고 갱신해 다시 쓴다 |
 
 ### Tailscale
 
@@ -113,6 +113,7 @@ sudo tailscale serve --bg --https=443 http://127.0.0.1:3000
 2. 오너: Tailscale 관리 화면에서 1회용 인증 키 발급 → `hermes/tailscale-authkey`
    - 배포 키: `ssh-keygen -t ed25519 -f hermes_deploy -N ''` → 공개 키를 GitHub 저장소 Settings → Deploy keys에 읽기 전용으로 추가 → 개인 키를 `hermes/github-deploy-key`에 저장
 3. Gemini 키: Octopus 키를 함께 쓸지 새로 발급할지 오너가 정함 → `hermes/gemini-api-key`
+   - Tana 토큰: Octopus 저장소에서 `AWS_PROFILE=octopus AWS_REGION=ap-northeast-2 node scripts/oauth-capture.ts tana --secret hermes/tana-token` (브라우저 승인 1번. 그 뒤 갱신은 워커가 한다)
 4. `cdk deploy Hermes` (오너 승인 뒤)
 5. Tailscale에 `hermes` 기기가 보이면 iPhone에서 `https://hermes.<tailnet>.ts.net` 접속 확인 (`tailscale serve`는 bootstrap이 설정함. 첫 부팅 로그: `/var/log/hermes-bootstrap.log`)
 6. `hermes-diagnose --sources`로 구독 목록 검증

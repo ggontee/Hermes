@@ -23,8 +23,8 @@ as_hermes bash -c "cd web && npm ci --no-audit --no-fund && NODE_OPTIONS=--max-o
 
 # 서비스
 ln -sf "$APP/deploy/diagnose.sh" /usr/local/bin/hermes-diagnose
-systemctl enable --now hermes-rsshub.service hermes-web.service hermes-backup.timer
-systemctl restart hermes-web.service
+systemctl enable --now hermes-rsshub.service hermes-web.service hermes-analysis.service hermes-backup.timer
+systemctl restart hermes-web.service hermes-analysis.service
 
 if ! systemctl is-enabled -q hermes-pipeline.timer; then
   echo "수집 타이머는 꺼져 있다. 확인 후: sudo systemctl start hermes-pipeline && sudo systemctl enable --now hermes-pipeline.timer"
