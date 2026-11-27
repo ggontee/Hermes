@@ -20,3 +20,15 @@ python -m pytest -q                       # 테스트 (네트워크 없이 돈�
 python -m pipeline.run --check-sources    # 구독 소스를 실제로 열어 보기
 python -m pipeline.run --no-ai            # 수집·저장만 (data/hermes.db)
 ```
+
+## 웹앱 (web/)
+
+Next.js PWA. 파이프라인과 같은 `data/hermes.db`를 읽고, 카드 상태·코멘트·태그와 심화 분석 요청만 쓴다.
+
+```bash
+python -m scripts.seed_dev data/dev.db          # 예시 데이터
+cd web && npm install
+HERMES_DB_PATH=$PWD/../data/dev.db npm run dev   # http://127.0.0.1:3000
+```
+
+환경변수: `HERMES_DB_PATH`(기본 `../data/hermes.db`), `HERMES_LIMIT_AI_ITEMS`·`HERMES_LIMIT_VIDEOS`·`HERMES_LIMIT_ANALYSES`, `HERMES_TANA_NODE_URL`(Tana 노드 링크 앞부분).

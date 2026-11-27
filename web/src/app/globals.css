@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f6f6f4;
+  --fg: #16171a;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111214;
+    --fg: #ececec;
+  }
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  overscroll-behavior-y: none;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.prose-ko p {
+  margin: 0.6em 0;
+  line-height: 1.75;
+}
+.prose-ko h1,
+.prose-ko h2,
+.prose-ko h3 {
+  font-weight: 700;
+  margin: 1.2em 0 0.4em;
+}
+.prose-ko h1 { font-size: 1.35rem; }
+.prose-ko h2 { font-size: 1.15rem; }
+.prose-ko h3 { font-size: 1.02rem; }
+.prose-ko ul,
+.prose-ko ol {
+  padding-left: 1.3em;
+  margin: 0.5em 0;
+}
+.prose-ko ul { list-style: disc; }
+.prose-ko ol { list-style: decimal; }
+.prose-ko li { margin: 0.25em 0; line-height: 1.7; }
+.prose-ko a { color: #6366f1; text-decoration: underline; }
+.prose-ko code {
+  font-size: 0.9em;
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+  background: rgb(127 127 127 / 0.15);
+}
+.prose-ko blockquote {
+  border-left: 3px solid rgb(127 127 127 / 0.4);
+  padding-left: 0.8em;
+  color: rgb(127 127 127);
+}
