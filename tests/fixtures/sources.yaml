@@ -1,0 +1,9 @@
+- name: Example Person
+  field: AI
+  affiliation: Example Lab
+  sources:
+    - { type: rss, url: "https://blog.example.com/feed.xml" }
+    - { type: youtube, channel_id: "UCexample", handle: "@example" }
+    - { type: bluesky, handle: "example.bsky.social" }
+    - { type: x, handle: example, enabled: false }
+    - { type: rss, url: "TODO" }

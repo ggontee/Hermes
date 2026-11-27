@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>@example.bsky.social</title>
+<item><link>https://bsky.app/profile/example.bsky.social/post/3aaa</link><guid>at://did:plc:x/app.bsky.feed.post/3aaa</guid>
+<pubDate>Thu, 26 Nov 2026 11:00:00 GMT</pubDate><description>New post on the blog: https://blog.example.com/eval-harness/</description></item>
+<item><link>https://bsky.app/profile/example.bsky.social/post/3bbb</link><guid>at://did:plc:x/app.bsky.feed.post/3bbb</guid>
+<pubDate>Thu, 26 Nov 2026 09:00:00 GMT</pubDate><description>Short thought about #llm tokenizers, cc @someone.bsky.social</description></item>
+<item><link>https://bsky.app/profile/example.bsky.social/post/3ccc</link><guid>at://did:plc:x/app.bsky.feed.post/3ccc</guid>
+<pubDate>Thu, 26 Nov 2026 08:00:00 GMT</pubDate><description>Wrote something new: https://blog.example.com/not-yet-fetched/</description></item>
+</channel></rss>

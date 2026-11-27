@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Example Blog</title>
+<item><title>Building a better eval harness</title><link>https://blog.example.com/eval-harness/?utm_source=rss</link>
+<guid>https://blog.example.com/eval-harness/</guid><pubDate>Thu, 26 Nov 2026 10:00:00 GMT</pubDate>
+<description><![CDATA[<p>First paragraph about evals with <a href="https://github.com/example/repo">a repo</a>.</p><p>Second paragraph.</p><ul><li>point one</li><li>point two</li></ul><img src="https://blog.example.com/fig.png"/>]]></description></item>
+<item><title>Old post</title><link>https://blog.example.com/old/</link><guid>old</guid><pubDate>Mon, 01 Jan 2024 10:00:00 GMT</pubDate><description>old</description></item>
+</channel></rss>
