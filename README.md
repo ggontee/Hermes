@@ -6,3 +6,7 @@
 - 결정 기록: [docs/decisions.md](docs/decisions.md)
 - 개발 스펙: [docs/dev-spec.md](docs/dev-spec.md)
 - 구독 목록: [config/sources.yaml](config/sources.yaml)
+- 화면: [docs/views.md](docs/views.md)
+- 프롬프트: [docs/prompts.md](docs/prompts.md)
+- 배포·운영: [docs/deploy-aws.md](docs/deploy-aws.md)
+- 용어집: [config/glossary.yaml](config/glossary.yaml)
