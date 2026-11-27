@@ -52,6 +52,14 @@ export class HermesStack extends cdk.Stack {
       }),
     );
 
+    // Tana 토큰은 분석 워커가 갱신한 뒤 다시 쓴다(refresh_token이 바뀔 수 있다).
+    role.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ["secretsmanager:PutSecretValue"],
+        resources: [`arn:${this.partition}:secretsmanager:${this.region}:${this.account}:secret:hermes/tana-token-*`],
+      }),
+    );
+
     const bootstrap = fs
       .readFileSync(path.join(__dirname, "..", "..", "deploy", "bootstrap.sh"), "utf8")
       .replace("__REPO_URL__", props.repoUrl)

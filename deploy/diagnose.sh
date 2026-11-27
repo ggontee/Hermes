@@ -12,7 +12,7 @@ fi
 
 next="$(systemctl list-timers hermes-pipeline.timer --no-legend 2>/dev/null | awk '{print $2" "$3}')"
 timer="$(systemctl is-enabled -q hermes-pipeline.timer && echo "✓ (다음 ${next:-?})" || echo "꺼짐")"
-echo "[서비스]     rsshub $(mark hermes-rsshub)  web $(mark hermes-web)  timer $timer"
+echo "[서비스]     rsshub $(mark hermes-rsshub)  web $(mark hermes-web)  analysis $(mark hermes-analysis)  timer $timer"
 
 echo "[마지막 회차] $(q "SELECT strftime('%m-%d %H:%M', started_at, '+9 hours') || '  새 글 ' || new_items || ' · AI 처리 ' || processed || ' · 상한으로 미룸 ' || deferred_by_cap || ' · 오류 ' || json_array_length(errors_json) || CASE WHEN finished_at IS NULL THEN ' (진행 중/중단)' ELSE '' END FROM runs ORDER BY id DESC LIMIT 1")"
 
@@ -21,6 +21,8 @@ echo "[오늘 사용]   $(q "SELECT group_concat(kind || ' ' || count, ' · ') |
 
 errs="$(q "SELECT '  ' || p.name || '/' || s.type || ': ' || s.last_error || ' (마지막 성공: ' || COALESCE(s.last_success_at, '없음') || ')' FROM sources s JOIN people p ON p.id = s.person_id WHERE s.enabled = 1 AND s.last_error IS NOT NULL")"
 echo "[소스 오류]   ${errs:+$'\n'}${errs:-없음}"
+
+echo "[심화 분석]   $(q "SELECT 'queued ' || SUM(status='queued') || ' · running ' || SUM(status='running') || ' · 실패 ' || SUM(status='failed') || ' · Tana 미저장 ' || SUM(status='done' AND tana_node_id IS NULL) FROM analyses")"
 
 mem="$(free -m | awk '/Mem:/{printf "%.1f/%.1fGB", $3/1024, $2/1024} /Swap:/{printf " · swap %dMB", $3}')"
 disk="$(df -h / | awk 'NR==2{print $3"/"$2}')"

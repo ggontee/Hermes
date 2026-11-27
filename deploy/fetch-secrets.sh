@@ -1,5 +1,6 @@
 #!/bin/bash
 # Secrets Manager hermes/* → /etc/hermes/env (root 600). 부팅 때와 비밀값을 바꾼 뒤 돈다.
+# Tana 토큰(hermes/tana-token)은 갱신될 때마다 다시 써야 해서 여기 넣지 않고, 분석 워커가 직접 읽고 쓴다.
 set -euo pipefail
 AWS=/snap/bin/aws
 export AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-ap-northeast-2}"
@@ -11,7 +12,8 @@ chmod 600 "$tmp"
   echo "NODE_ENV=production"
   echo "HERMES_DB_PATH=/var/lib/hermes/hermes.db"
   echo "TZ=Asia/Seoul"
-  for pair in anthropic-api-key:ANTHROPIC_API_KEY gemini-api-key:GEMINI_API_KEY tana-token:TANA_TOKEN x-auth-token:X_AUTH_TOKEN; do
+  echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
+  for pair in anthropic-api-key:ANTHROPIC_API_KEY gemini-api-key:GEMINI_API_KEY x-auth-token:X_AUTH_TOKEN; do
     v="$(get "hermes/${pair%%:*}")"
     [ -n "$v" ] && printf '%s=%s\n' "${pair##*:}" "$v"
   done
