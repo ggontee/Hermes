@@ -36,3 +36,23 @@ models:
   long: claude-sonnet-5-5
   transcribe: gemini-3.5-flash-lite
   analysis: claude-sonnet-5-5
+
+ai:
+  short_effort: low           # 짧은 SNS 번역 (Haiku)
+  summary_effort: medium      # 긴 글·영상 요약 (Sonnet)
+  translate_effort: medium    # 전문 번역 (Sonnet)
+  translate_chunk_chars: 18000     # 전문 번역 한 번에 보내는 원문 글자 수
+  translate_max_tokens: 16000
+  summary_input_chars: 120000      # 요약에 넣는 원문 최대 글자 수 (넘으면 앞부분)
+  translate_transcript: true       # 영상 스크립트도 번역할지
+
+video:
+  max_minutes: 180            # 이보다 긴 영상은 앞부분만 받아쓴다
+  transcript_max_tokens: 65536
+
+# 100만 토큰당 USD. 추정 비용 계산용 (2026-11 기준, 바뀌면 고친다)
+pricing:
+  claude-haiku-5-5: { input: 0.10, output: 0.50 }
+  claude-sonnet-5-5: { input: 2.00, output: 10.00 }
+  claude-opus-5-5: { input: 4.00, output: 20.00 }
+  gemini-3.5-flash-lite: { input: 0.30, output: 2.50 }
