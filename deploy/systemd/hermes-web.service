@@ -1,0 +1,20 @@
+[Unit]
+Description=Hermes: web app (127.0.0.1:3000, Tailscale serve)
+After=network-online.target hermes-secrets.service
+Requires=hermes-secrets.service
+
+[Service]
+User=hermes
+WorkingDirectory=/opt/hermes/web
+EnvironmentFile=/etc/hermes/env
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3000
+Restart=always
+RestartSec=5
+MemoryMax=500M
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/hermes /opt/hermes/web/.next
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

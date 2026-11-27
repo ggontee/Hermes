@@ -1,0 +1,10 @@
+[Unit]
+Description=Hermes: run pipeline at 06:00, 14:00, 22:00 KST
+
+[Timer]
+OnCalendar=*-*-* 06,14,22:00:00 Asia/Seoul
+Persistent=true
+RandomizedDelaySec=60
+
+[Install]
+WantedBy=timers.target

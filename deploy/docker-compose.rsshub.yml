@@ -1,0 +1,22 @@
+# RSSHub + Redis. 127.0.0.1에만 연다(바깥에서는 보이지 않는다).
+# 이미지 태그는 고정하고 한 달에 한 번 올린다: RSSHUB_TAG를 /etc/hermes/env에 두면 그 값을 쓴다.
+services:
+  rsshub:
+    image: diygod/rsshub:${RSSHUB_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1200:1200"
+    environment:
+      NODE_ENV: production
+      CACHE_TYPE: redis
+      REDIS_URL: redis://redis:6379/
+      CACHE_EXPIRE: 1800
+      TWITTER_AUTH_TOKEN: ${X_AUTH_TOKEN:-}
+    mem_limit: 600m
+    depends_on:
+      - redis
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru", "--save", ""]
+    mem_limit: 96m

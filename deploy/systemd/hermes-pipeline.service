@@ -1,0 +1,17 @@
+[Unit]
+Description=Hermes: collect + AI process (one run)
+After=network-online.target hermes-secrets.service hermes-rsshub.service
+Requires=hermes-secrets.service
+
+[Service]
+Type=oneshot
+User=hermes
+WorkingDirectory=/opt/hermes
+EnvironmentFile=/etc/hermes/env
+ExecStart=/opt/hermes/.venv/bin/python -m pipeline.run
+TimeoutStartSec=2h
+MemoryMax=600M
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/hermes
+PrivateTmp=yes

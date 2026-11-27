@@ -12,10 +12,10 @@
 | 보안 그룹 | **인바운드 0개.** 아웃바운드 443, 80(apt), 41641/udp(Tailscale 직접 연결) |
 | 퍼블릭 IP | IPv4 1개(아웃바운드용. Elastic IP는 쓰지 않음) |
 | IAM 역할 | `AmazonSSMManagedInstanceCore`(비상 접속), Secrets Manager `hermes/*` 읽기, CloudWatch 에이전트 |
-| 비밀 | Secrets Manager `hermes/anthropic-api-key`, `hermes/gemini-api-key`, `hermes/rsshub-access-key`, `hermes/tana-token`, (2단계) `hermes/x-auth-token` |
+| 비밀 | Secrets Manager `hermes/anthropic-api-key`, `hermes/gemini-api-key`, `hermes/tana-token`, `hermes/tailscale-authkey`(1회용), `hermes/github-deploy-key`(읽기 전용 배포 키), (2단계) `hermes/x-auth-token`. RSSHub는 127.0.0.1에만 열려 있어 접근 키를 두지 않는다 |
 | 백업 | DLM 스냅샷 하루 1번, 7일 보관 |
 | 예산 | 기존 `octopus-monthly`($50)에 포함. 비용 할당 태그 `project=hermes` |
-| UserData | 첫 부팅 스크립트: swap 2GB, Docker, Node 22, Python 3.12, Tailscale 설치(인증 키는 Secrets Manager `hermes/tailscale-authkey`, 1회용) |
+| UserData | `deploy/bootstrap.sh`: swap 2GB, Docker, Node 22, Python 3.12, AWS CLI, Tailscale 설치·접속, 배포 키로 `git clone`(GitHub SSH를 443으로), `deploy/install.sh` |
 
 예상 월 비용(서울, 확인 필요): EC2 t4g.small 약 $12~13, EBS 30GB 약 $2.5, 퍼블릭 IPv4 약 $3.6, 스냅샷 소액. 합계 약 $18~20. AI API 비용은 별도.
 
@@ -46,7 +46,8 @@ AWS_PROFILE=octopus npx cdk deploy Hermes
 | `hermes-web.service` | `next start -H 127.0.0.1 -p 3000` |
 | `hermes-pipeline.service` | `python -m pipeline.run` (oneshot) |
 | `hermes-pipeline.timer` | `OnCalendar=*-*-* 06,14,22:00:00 Asia/Seoul`, `Persistent=true` |
-| `hermes-analysis.service` | 심화 분석 대기열 워커 (상시, 대기열이 비면 쉼) |
+| `hermes-backup.service` / `.timer` | 매일 04:00 SQLite `.backup`, 7개 보관 |
+| `hermes-analysis.service` | 심화 분석 대기열 워커 (상시, 대기열이 비면 쉼). Tana 연동 PR에서 추가 |
 
 ### Tailscale
 
@@ -67,6 +68,8 @@ sudo tailscale serve --bg --https=443 http://127.0.0.1:3000
 | 파이프라인 (실행 중) | 150~300MB | `MemoryMax=600M` |
 | 분석 워커 | 100MB | `MemoryMax=300M` |
 
+설치·갱신은 `deploy/install.sh`(root, 여러 번 돌려도 같음) 하나로 한다: venv와 pip, 유닛 복사, 비밀값, DB 마이그레이션, `npm ci && npm run build`, 서비스 켜기. 수집 타이머는 켜지 않는다(첫 수동 실행을 확인한 뒤 켠다).
+
 ## 3. 배포 (`scripts/deploy.sh`, 한 줄)
 
 ```bash
@@ -74,7 +77,7 @@ sudo tailscale serve --bg --https=443 http://127.0.0.1:3000
 ```
 흐름:
 1. 로컬 변경이 커밋·푸시돼 있는지 확인 (안 돼 있으면 멈춤. Mnemo처럼 자동 커밋하지 않는다)
-2. `ssh hermes` (Tailscale SSH) → `cd /opt/hermes && git pull --ff-only`
+2. `ssh ubuntu@hermes` (Tailscale SSH, `HERMES_SSH`로 바꿀 수 있음) → `sudo /opt/hermes/deploy/server-update.sh` → `git merge --ff-only origin/main`
 3. 바뀐 게 있으면: `pip install -r pipeline/requirements.txt`, `npm ci && npm run build`
 4. DB 마이그레이션 (`python -m pipeline.db migrate`)
 5. `systemctl restart hermes-web hermes-analysis` (파이프라인은 다음 회차에 새 코드로 돈다)
@@ -108,8 +111,9 @@ sudo tailscale serve --bg --https=443 http://127.0.0.1:3000
 
 1. 오너: Anthropic Console에서 Hermes용 API 키 발급 → `hermes/anthropic-api-key`에 저장 (Octopus의 `scripts/put-secret.sh` 방식)
 2. 오너: Tailscale 관리 화면에서 1회용 인증 키 발급 → `hermes/tailscale-authkey`
+   - 배포 키: `ssh-keygen -t ed25519 -f hermes_deploy -N ''` → 공개 키를 GitHub 저장소 Settings → Deploy keys에 읽기 전용으로 추가 → 개인 키를 `hermes/github-deploy-key`에 저장
 3. Gemini 키: Octopus 키를 함께 쓸지 새로 발급할지 오너가 정함 → `hermes/gemini-api-key`
 4. `cdk deploy Hermes` (오너 승인 뒤)
-5. Tailscale에 `hermes` 기기가 보이면 `tailscale serve` 설정, iPhone에서 접속 확인
+5. Tailscale에 `hermes` 기기가 보이면 iPhone에서 `https://hermes.<tailnet>.ts.net` 접속 확인 (`tailscale serve`는 bootstrap이 설정함. 첫 부팅 로그: `/var/log/hermes-bootstrap.log`)
 6. `hermes-diagnose --sources`로 구독 목록 검증
-7. 파이프라인 수동 1회 → 카드 확인 → 타이머 켬
+7. 파이프라인 수동 1회(`sudo systemctl start hermes-pipeline`) → 카드 확인 → `sudo systemctl enable --now hermes-pipeline.timer`

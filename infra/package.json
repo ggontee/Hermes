@@ -1,0 +1,22 @@
+{
+  "name": "hermes-infra",
+  "version": "0.1.0",
+  "private": true,
+  "bin": { "hermes": "bin/hermes.ts" },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "synth": "cdk synth Hermes",
+    "diff": "cdk diff Hermes",
+    "deploy": "cdk deploy Hermes"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.278.0",
+    "constructs": "^10.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "aws-cdk": "2.1149.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5"
+  }
+}
